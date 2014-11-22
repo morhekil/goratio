@@ -9,10 +9,10 @@ import (
 )
 
 func main() {
-	d := make(chan *data.Entry)
+	d := make(chan *data.Event)
 	defer close(d)
 
-	r := collector.New(d)
+	c := collector.New(d)
 	defer c.Close()
 
 	go emitter.Pull(d)

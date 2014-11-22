@@ -1,12 +1,10 @@
 package data
 
-type Entry struct {
-	ID         int
-	UserID     int
-	Server     string
-	Method     string
-	Controller string
-	Action     string
-	SubjectID  int
-	Event      string
+import "time"
+
+type Event struct {
+	User      string
+	Domain    string
+	Action    string
+	Timestamp time.Time
 }

@@ -9,20 +9,20 @@ import (
 )
 
 // fetch next row from the query results, and create page struct of it
-func fetch(xs *sql.Rows) *data.Entry {
-	d, err := scan(xs)
+func fetch(xs *sql.Rows) (uint64, *data.Event) {
+	id, x, err := scan(xs)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return d
+	return id, x
 }
 
 type reader struct {
 	db     *sql.DB
-	c      chan *data.Entry
+	c      chan *data.Event
 	stmt   *sql.Stmt
-	lastID int
-	Count  int64
+	lastID uint64
+	Count  uint64
 }
 
 // Push loads the next batch of data and pushes it down the channel
@@ -34,8 +34,8 @@ func (r *reader) Push() {
 	defer xs.Close()
 
 	for xs.Next() {
-		p := fetch(xs)
-		r.publish(p)
+		id, p := fetch(xs)
+		r.publish(id, p)
 	}
 
 	if err := xs.Err(); err != nil {
@@ -64,8 +64,8 @@ func (r *reader) prepare() {
 	r.stmt = s
 }
 
-func (r *reader) publish(d *data.Entry) {
-	r.lastID = d.ID
+func (r *reader) publish(id uint64, d *data.Event) {
+	r.lastID = id
 	r.Count++
 	r.c <- d
 }
