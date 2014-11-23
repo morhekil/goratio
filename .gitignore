@@ -1,3 +1,4 @@
 feeder/cmd/cmd
 feeder/cmd/goratio
 feeder/**/*.test
+dist/*
