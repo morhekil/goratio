@@ -9,7 +9,7 @@ import (
 	"github.com/morhekil/goratio/feeder/emitter"
 )
 
-func stats(r *collector.Reader) {
+func trace(r *collector.Reader) {
 	t := time.NewTicker(time.Second * 5)
 
 	go func() {
@@ -29,9 +29,12 @@ func main() {
 	r := collector.New(d)
 	defer r.Close()
 
+	// Run the emitter, and print stats occasionally
+	emitter.Setup()
 	go emitter.Pull(d)
-	stats(&r)
+	trace(&r)
 
+	// Run collector's reader
 	for {
 		r.Push()
 		time.Sleep(1 * time.Second)
