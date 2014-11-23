@@ -17,6 +17,8 @@ func fetch(xs *sql.Rows) (uint64, *data.Event) {
 	return id, x
 }
 
+// Reader represents the current state of the feeder process, and exposes
+// its basic statistics
 type Reader struct {
 	db     *sql.DB
 	c      chan *data.Event

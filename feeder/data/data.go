@@ -17,6 +17,8 @@ type Event struct {
 
 // Hydrate populates event record with additional derived data
 func (e *Event) Hydrate() {
-	s := fmt.Sprintf("%s-%s-%s", e.User, e.Action, e.Timestamp)
-	e.ID = fmt.Sprintf("%x", md5.Sum([]byte(s)))
+	if e.ID == "" {
+		s := fmt.Sprintf("%s-%s-%s", e.User, e.Action, e.Timestamp)
+		e.ID = fmt.Sprintf("%x", md5.Sum([]byte(s)))
+	}
 }

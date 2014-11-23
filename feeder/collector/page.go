@@ -26,18 +26,18 @@ func query() string {
 }
 
 func scan(xs *sql.Rows) (uint64, *data.Event, error) {
-	var id uint64
 	p := page{}
-	err := xs.Scan(&id, &p.userID, &p.url, &p.controller, &p.action,
+	err := xs.Scan(&p.id, &p.userID, &p.url, &p.controller, &p.action,
 		&p.server, &p.method, &p.data, &p.params, &p.createdAt)
 	if err != nil {
 		return 0, nil, err
 	}
-	return id, p.event(), nil
+	return uint64(p.id.Int64), p.event(), nil
 }
 
 // page structure describes a single website activity event
 type page struct {
+	id         sql.NullInt64
 	userID     sql.NullInt64
 	url        string
 	controller string
@@ -51,6 +51,7 @@ type page struct {
 
 func (p *page) event() *data.Event {
 	return &data.Event{
+		ID:        strconv.FormatInt(p.id.Int64, 10),
 		User:      strconv.FormatInt(p.userID.Int64, 10),
 		Domain:    p.domain(),
 		Action:    p.description(),
