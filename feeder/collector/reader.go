@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/morhekil/goratio/feeder/data"
 )
@@ -64,6 +65,11 @@ func (r *Reader) prepare() {
 		log.Fatal(err)
 	}
 	r.stmt = s
+
+	id, _ := strconv.Atoi(os.Getenv("FROM"))
+	if id > 0 {
+		r.lastID = uint64(id)
+	}
 }
 
 func (r *Reader) publish(id uint64, d *data.Event) {
