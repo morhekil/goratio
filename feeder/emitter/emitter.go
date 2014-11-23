@@ -44,14 +44,14 @@ func elasticise(e *data.Event) {
 	args := map[string]interface{}{"timestamp": e.Timestamp.String()}
 	_, err := es.Index(indexName(e), doctype, e.ID, args, e)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("index failed: %s", err)
 	}
 }
 
 func debug(e *data.Event) {
 	s, err := json.Marshal(e)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("marshalling failed: %s", err)
 	}
 	fmt.Printf("%s\n", s)
 }

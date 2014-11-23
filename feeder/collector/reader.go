@@ -13,7 +13,7 @@ import (
 func fetch(xs *sql.Rows) (uint64, *data.Event) {
 	id, x, err := scan(xs)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("fetch failed: %s", err)
 	}
 	return id, x
 }
@@ -32,7 +32,7 @@ type Reader struct {
 func (r *Reader) Push() {
 	xs, err := r.stmt.Query(r.lastID)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("query failed: %s", err)
 	}
 	defer xs.Close()
 
@@ -42,7 +42,7 @@ func (r *Reader) Push() {
 	}
 
 	if err := xs.Err(); err != nil {
-		log.Fatal(err)
+		log.Fatalf("after-query failed: %s", err)
 	}
 }
 
@@ -54,7 +54,7 @@ func (r *Reader) Close() {
 func (r *Reader) connect() {
 	c, err := sql.Open("mysql", os.Getenv("DB"))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("connect failed: %s", err)
 	}
 	r.db = c
 }
@@ -62,7 +62,7 @@ func (r *Reader) connect() {
 func (r *Reader) prepare() {
 	s, err := r.db.Prepare(query())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("prepare failed: %s", err)
 	}
 	r.stmt = s
 
