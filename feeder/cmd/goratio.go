@@ -23,7 +23,7 @@ func trace(r *collector.Reader) {
 	}()
 }
 func main() {
-	d := make(chan *data.Event)
+	d := make(chan *data.Event, 1000)
 	defer close(d)
 
 	r := collector.New(d)

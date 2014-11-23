@@ -22,7 +22,7 @@ const isotime = "2006-01-02 15:04:05"
 func query() string {
 	return "SELECT id, user_id, url, controller, action, server_addr, " +
 		"http_method, form_data, params, created_at " +
-		"FROM page_logs WHERE id > ? LIMIT 1000"
+		"FROM page_logs WHERE id > ? LIMIT 10000"
 }
 
 func scan(xs *sql.Rows) (uint64, *data.Event, error) {
