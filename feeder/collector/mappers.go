@@ -39,6 +39,6 @@ func (p *page) mapFormData(d interface{}) {
 		"=>", ": ", -1)
 	err := json.Unmarshal([]byte(data), &d)
 	if err != nil {
-		log.Fatalf("mapping form data failed: %s", err)
+		log.Fatalf("mapping form data failed: %s, in data: %s", err, data)
 	}
 }
