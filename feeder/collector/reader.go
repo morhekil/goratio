@@ -17,7 +17,7 @@ func fetch(xs *sql.Rows) (uint64, *data.Event) {
 	return id, x
 }
 
-type reader struct {
+type Reader struct {
 	db     *sql.DB
 	c      chan *data.Event
 	stmt   *sql.Stmt
@@ -26,7 +26,7 @@ type reader struct {
 }
 
 // Push loads the next batch of data and pushes it down the channel
-func (r *reader) Push() {
+func (r *Reader) Push() {
 	xs, err := r.stmt.Query(r.lastID)
 	if err != nil {
 		log.Fatal(err)
@@ -44,11 +44,11 @@ func (r *reader) Push() {
 }
 
 // Close destroys the database connection
-func (r *reader) Close() {
+func (r *Reader) Close() {
 	r.db.Close()
 }
 
-func (r *reader) connect() {
+func (r *Reader) connect() {
 	c, err := sql.Open("mysql", os.Getenv("DB"))
 	if err != nil {
 		log.Fatal(err)
@@ -56,7 +56,7 @@ func (r *reader) connect() {
 	r.db = c
 }
 
-func (r *reader) prepare() {
+func (r *Reader) prepare() {
 	s, err := r.db.Prepare(query())
 	if err != nil {
 		log.Fatal(err)
@@ -64,7 +64,7 @@ func (r *reader) prepare() {
 	r.stmt = s
 }
 
-func (r *reader) publish(id uint64, d *data.Event) {
+func (r *Reader) publish(id uint64, d *data.Event) {
 	r.lastID = id
 	r.Count++
 	r.c <- d

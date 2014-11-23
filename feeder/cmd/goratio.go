@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/morhekil/goratio/feeder/collector"
@@ -8,16 +9,31 @@ import (
 	"github.com/morhekil/goratio/feeder/emitter"
 )
 
+func stats(r *collector.Reader) {
+	t := time.NewTicker(time.Second * 5)
+
+	go func() {
+		n := uint64(0)
+		for _ = range t.C {
+			if r.Count > n {
+				log.Printf("Processed %d records", r.Count-n)
+				n = r.Count
+			}
+		}
+	}()
+}
 func main() {
 	d := make(chan *data.Event)
 	defer close(d)
 
-	c := collector.New(d)
-	defer c.Close()
+	r := collector.New(d)
+	defer r.Close()
 
 	go emitter.Pull(d)
+	stats(&r)
+
 	for {
-		c.Push()
+		r.Push()
 		time.Sleep(1 * time.Second)
 	}
 }
