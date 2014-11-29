@@ -16,7 +16,11 @@ func mapDataFormID(p *page) string {
 
 func mapParamsFormID(p *page) string {
 	v, _ := url.ParseQuery(p.params)
-	return v["form_id"][0]
+	if len(v) > 0 {
+		return v["form_id"][0]
+	} else {
+		return ""
+	}
 }
 
 var mappers = map[string]mapper{
