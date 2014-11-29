@@ -51,7 +51,7 @@ func TestActionNewForm(t *testing.T) {
 
 func TestActionCreateForm(t *testing.T) {
 	data := `--- '{"form_id"=>"123", "record_id"=>"1", ` +
-		`"something"=>"else", "action"=>"create", ` +
+		`"something"=>"else\#", "action"=>"create", ` +
 		`"controller"=>"saved_forms"}'` + "\r\n"
 	p := page{
 		method:     "POST",

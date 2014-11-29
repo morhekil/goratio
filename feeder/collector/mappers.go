@@ -38,6 +38,7 @@ func (p *page) mapFormData(d interface{}) {
 		strings.Trim(p.data.String, "' -\r\n"),
 		"=>", ": ", -1)
 	data = strings.Replace(data, "\n", "", -1)
+	data = strings.Replace(data, "\\#", "#", -1)
 	data = strings.Replace(data, "\r", "", -1)
 	err := json.Unmarshal([]byte(data), &d)
 	if err != nil {
