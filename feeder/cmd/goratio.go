@@ -36,7 +36,10 @@ func main() {
 
 	// Run collector's reader
 	for {
-		r.Push()
-		time.Sleep(1 * time.Second)
+		n := r.Push()
+		if n == 0 {
+			// short pause if we're out of data
+			time.Sleep(1 * time.Second)
+		}
 	}
 }

@@ -29,21 +29,24 @@ type Reader struct {
 }
 
 // Push loads the next batch of data and pushes it down the channel
-func (r *Reader) Push() {
+func (r *Reader) Push() int64 {
 	xs, err := r.stmt.Query(r.lastID)
 	if err != nil {
 		log.Fatalf("query failed: %s", err)
 	}
 	defer xs.Close()
 
+	n := int64(0)
 	for xs.Next() {
 		id, p := fetch(xs)
 		r.publish(id, p)
+		n++
 	}
 
 	if err := xs.Err(); err != nil {
 		log.Fatalf("after-query failed: %s", err)
 	}
+	return n
 }
 
 // Close destroys the database connection
