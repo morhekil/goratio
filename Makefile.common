@@ -1,5 +1,3 @@
 # A set of common parameters for all Makefiles
 ROOT=$(dir $(lastword $(MAKEFILE_LIST)))
-BINARY=goratio-feeder
-DEBPKG=goratio-feeder.deb
 DIST_DIR=$(ROOT)dist

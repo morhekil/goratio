@@ -1,7 +1,7 @@
 include $(dir $(lastword $(MAKEFILE_LIST)))../Makefile.common
 
-TEST_PACKAGE=github.com/morhekil/goratio/feeder/...
-BINARY=goratio-feeder
+TEST_PACKAGE=github.com/morhekil/goratio/analyser/...
+BINARY=goratio-analyser
 
 all: get test build
 
