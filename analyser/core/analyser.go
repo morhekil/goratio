@@ -1,4 +1,4 @@
-package analyser
+package core
 
 import "github.com/morhekil/goratio/analyser/timeframe"
 

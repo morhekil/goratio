@@ -1,3 +1,5 @@
 feeder/feeder
+analyser/analyser
 feeder/**/*.test
+analyser/**/*.test
 dist/*

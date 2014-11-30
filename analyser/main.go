@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/morhekil/goratio/analyser"
+	"github.com/morhekil/goratio/analyser/core"
 	"github.com/morhekil/goratio/analyser/elastic"
 	"github.com/morhekil/goratio/analyser/timeframe"
 )
 
 func main() {
 	r := elastic.Repository{}
-	a := analyser.New(r)
+	c := core.New(r)
 	t := timeframe.Now()
-	a.Process(t)
+	c.Process(t)
 
 	// m := timeframe.Now()
 	// s := stats.Calc(m)
