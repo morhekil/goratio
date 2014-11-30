@@ -1,7 +1,7 @@
-include $(dir $(lastword $(MAKEFILE_LIST)))../../Makefile.common
+include $(dir $(lastword $(MAKEFILE_LIST)))../Makefile.common
 
-CMD_DIR=$(ROOT)cmd
-TEST_PACKAGE=github.com/morhekil/goratio/feeder/cmd
+CMD_DIR=$(ROOT)
+TEST_PACKAGE=github.com/morhekil/goratio/feeder/...
 
 all: get test build
 
